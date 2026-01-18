@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # Deliberately vulnerable application
+  vulnerable_app:
+    build:
+      context: .
+      dockerfile: original_code/vulnerable_app/Dockerfile
+    container_name: vulnhunter_vulnerable
+    ports:
+      - "8080:5000"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    labels:
+      - "project=vulnhunter"
+      - "type=vulnerable"
+      - "warning=DO_NOT_USE_IN_PRODUCTION"
+    networks:
+      - vulnhunter_network
+  
+  # Secure refactored application (to be implemented)
+  secure_app:
+    build:
+      context: .
+      dockerfile: final_refactored/Dockerfile
+    container_name: vulnhunter_secure
+    ports:
+      - "8081:5000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+    labels:
+      - "project=vulnhunter"
+      - "type=secure"
+    networks:
+      - vulnhunter_network
+    # Only start if the secure version exists
+    profiles:
+      - secure
+  
+  # Security scanner container
+  security_scanner:
+    image: python:3.10-slim
+    container_name: vulnhunter_scanner
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: >
+      sh -c "pip install bandit safety pylint radon &&
+             python tools/security_scanner.py original_code/vulnerable_app --name docker_scan --report"
+    networks:
+      - vulnhunter_network
+    profiles:
+      - tools
+  
+  # Performance tester container
+  performance_tester:
+    image: python:3.10-slim
+    container_name: vulnhunter_performance
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: >
+      sh -c "pip install requests &&
+             python tools/performance_tester.py --url http://vulnerable_app:5000 --name docker_test"
+    depends_on:
+      - vulnerable_app
+    networks:
+      - vulnhunter_network
+    profiles:
+      - tools
+  
+  # Documentation server
+  docs:
+    image: nginx:alpine
+    container_name: vulnhunter_docs
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+      - ./README.md:/usr/share/nginx/html/index.md:ro
+    ports:
+      - "8082:80"
+    networks:
+      - vulnhunter_network
+    profiles:
+      - docs
+
+networks:
+  vulnhunter_network:
+    driver: bridge
+
+volumes:
+  app_data:

@@ -66,6 +66,10 @@ credentials/
 
 # Reports
 analysis/security_scan_results/*.json
+analysis/code_metrics/*.json
 analysis/performance_benchmarks/*.txt
 !analysis/security_scan_results/.gitkeep
+!analysis/code_metrics/.gitkeep
 !analysis/performance_benchmarks/.gitkeep
+test-report.html
+coverage.xml

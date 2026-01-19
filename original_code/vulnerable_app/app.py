@@ -1,7 +1,7 @@
 """
 DELIBERATELY VULNERABLE FLASK APPLICATION
 ==========================================
-⚠️ WARNING: This application contains 15+ security vulnerabilities.
+⚠️ WARNING: This application contains 30+ security vulnerabilities.
 DO NOT deploy in production. For educational purposes only.
 
 Vulnerabilities included:
@@ -23,6 +23,8 @@ Vulnerabilities included:
 16. Sensitive Data Exposure
 17. Broken Access Control
 18. Security Misconfiguration
+19. Authentication Bypass
+20. Predictable Sessions
 """
 
 from flask import Flask, request, render_template_string, session, redirect, send_file
@@ -426,6 +428,35 @@ def profile(user_id):
         '''
     
     return "<h1>User not found</h1><a href='/'>Back</a>"
+
+@app.route('/auto_login/<username>')
+def auto_login(username):
+    """
+    VULNERABILITY 30: Authentication Bypass via Auto-Login
+    Allows direct login without credentials
+    """
+    # VULNERABLE: Auto-login without authentication
+    session['user'] = username
+    session['role'] = 'admin' if username == 'admin' else 'user'
+    return f'''
+    <h1>Auto Login</h1>
+    <p>You are now logged in as {username}</p>
+    <a href="/">Back</a>
+    '''
+
+@app.route('/session_check')
+def session_check():
+    """
+    VULNERABILITY 31: Predictable Session Validation
+    Accepts predictable session IDs
+    """
+    session_id = request.args.get('session_id', '')
+    # VULNERABLE: Accepts any predictable session ID pattern
+    if session_id and 'admin' in session_id:
+        session['user'] = 'admin'
+        session['role'] = 'admin'
+        return '<h1>Session Valid</h1><p>Admin session activated</p><a href="/">Back</a>'
+    return '<h1>Invalid Session</h1><a href="/">Back</a>', 401
 
 @app.errorhandler(404)
 def page_not_found(e):

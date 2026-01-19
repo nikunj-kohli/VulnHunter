@@ -1,9 +1,5 @@
 # 🔍 VulnHunter: AI-Powered Security Refactoring Analysis
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Security: Bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
-
 > **⚠️ Educational Project Warning**: This repository contains **deliberately vulnerable code** for security education and AI capability testing. **DO NOT deploy any code from this repository in production environments.**
 
 ## 📖 Overview
@@ -254,16 +250,7 @@ docker-compose up
 Access:
 - Vulnerable app: http://localhost:8080
 - Secure app: http://localhost:8081
-
-## 📚 Documentation
-
-- **[Methodology](docs/methodology.md)**: Research approach and testing methods
-- **[Vulnerability Types](docs/vulnerability_types.md)**: Detailed vulnerability catalog
-- **[Refactoring Patterns](docs/refactoring_patterns.md)**: Security fix patterns
-- **[AI Limitations](docs/ai_limitations.md)**: What AIs can't do
-- **[Best Practices](docs/best_practices.md)**: Security best practices
-- **[How to Use](docs/how_to_use.md)**: Usage guide
-
+- 
 ## 🎓 Educational Use
 
 This project is designed for:
@@ -288,7 +275,6 @@ Contributions are welcome! Please:
 3. Add tests for new vulnerabilities
 4. Submit a pull request
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## ⚖️ Legal & Ethical Use
 
@@ -312,9 +298,6 @@ This code is provided **solely for educational purposes**. You must:
 
 The authors are not responsible for misuse of this code. Always obtain proper authorization before testing security vulnerabilities.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 **Note**: The MIT license does NOT grant permission to use this code for malicious purposes. This project is for educational use only.
 
@@ -325,18 +308,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - AI model providers (Anthropic, OpenAI, Google)
 - Security researchers and educators
 
-## 📞 Contact
 
-- **Project Lead**: [Your Name]
-- **Email**: [your.email@example.com]
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-
-## 🔗 Resources
-
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [OWASP Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [Python Security Best Practices](https://python.readthedocs.io/en/stable/library/security_warnings.html)
-- [Flask Security](https://flask.palletsprojects.com/en/2.3.x/security/)
 
 ---
 
